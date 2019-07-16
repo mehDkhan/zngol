@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def register(request):
@@ -18,6 +19,5 @@ def register(request):
         return redirect('core:index')
 
 
-def profile(request,username):
-    user = User.objects.get(username=username)
-    return render(request, 'account/profile.html', {'user':user})
+class UserDetails(LoginRequiredMixin,DetailView):
+    model = get_user_model()
