@@ -5,7 +5,7 @@ app_name = 'account'
 
 urlpatterns= [
     path('accounts/register',views.register,name='register'),
-    re_path(r'^account/(?P<username>\w+)$',views.DetailView.as_view(),name='details'),
+    re_path(r'^(?P<username>\w+)$',views.UserDetails.as_view(),name='details'),
     path('', include('django.contrib.auth.urls')),
 
 ]
