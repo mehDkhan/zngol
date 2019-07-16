@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import User
 
 
 def register(request):
@@ -20,4 +20,6 @@ def register(request):
 
 
 class UserDetails(LoginRequiredMixin,DetailView):
-    model = get_user_model()
+    model = User
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
