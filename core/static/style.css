@@ -1,0 +1,15 @@
+
+@font-face {
+    font-family:'BYekan';
+    font-style:normal;
+    font-weight:400;
+    src:url('/static/fonts/BYekan.woff') format('woff'),
+        url('/static/fonts/BYekan.ttf') format('truetype')
+}
+body{
+    font-family: "BYekan";
+}
+#header {
+    background-color: #95999c;
+    height: 50px;
+}

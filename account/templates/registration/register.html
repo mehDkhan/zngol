@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% block title %}{{ block.super }} - Register{% endblock %}
+{% block content %}
+        <br>
+        <center>
+        <div class="col-md-8 col-lg-8 col-sm-12 col-xl-6">
+         <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">عضویت</h4>
+                </div>
+                <div class="card-body">
+                    <center>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <table>
+                                <tr>
+                                    <td>نام کاربری</td>
+                                    <td>{{ form.username|add_class:'form-control' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>کلمه ی عبور</td>
+                                    <td>{{ form.password1|add_class:'form-control' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>تکرار کلمه عبور</td>
+                                    <td>{{ form.password2|add_class:'form-control' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><a href={% url 'account:login' %}>اکانت دارید ؟ وارد شوید</a></td>
+                                </tr>
+                                {% if form.errors %}
+                                    <tr>
+                                        <td id="error">خطا</td>
+                                        <td>
+                                            {% for field in form %}
+                                                {% if field.errors %}
+                                                    <li>{{ form.errors|striptags }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </table>
+                            <input class="btn btn-primary" type="submit" value="ثبت نام" />
+                        </form>
+                    </center>
+                </div>
+            </div>
+        </div>
+        </center>
+{% endblock %}

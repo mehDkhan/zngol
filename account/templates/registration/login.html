@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+{% load widget_tweaks %}
+{% block title %}{{ block.super }} - Login{% endblock %}
+{% block content %}
+    {% if not user.is_authenticated %}
+        <br>
+        <center>
+        <div class="col-md-8 col-lg-8 col-sm-12 col-xl-6">
+         <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">ورود به حساب کاربری</h4>
+                </div>
+                <div class="card-body">
+                    <center>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <table>
+                                <tr>
+                                    <td>نام کاربری</td>
+                                    <td>{{ form.username|add_class:'form-control' }}</td>
+                                </tr>
+                                <tr>
+                                    <td>کلمه ی عبور</td>
+                                    <td>{{ form.password|add_class:'form-control' }}</td>
+                                </tr>
+                                <tr>
+                                    <td><a href={% url 'account:password_reset' %}>فراموشی رمز عبور</a></td>
+                                </tr>
+                                {% if form.errors %}
+                                    <tr>
+                                        <td id="error">خطا</td>
+                                        <td>
+                                            {% for field in form %}
+                                                {% if field.errors %}
+                                                    <li>{{ form.errors|striptags }}</li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </table>
+                            <input class="btn btn-primary" type="submit" value="ورود" />
+                        </form>
+                    </center>
+                </div>
+            </div>
+        </div>
+        </center>
+        {% else %}
+    {% endif %}
+{% endblock %}
