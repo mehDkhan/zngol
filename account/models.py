@@ -5,7 +5,7 @@ from django.urls import reverse
 
 class User(AbstractUser):
     name = models.CharField(max_length=255,blank=True)
-    picture = models.ImageField(upload_to='profile_pics',blank=True,null=True)
+    picture = models.ImageField(upload_to='profile_pics/',default='profile_pics/user.png',blank=True,null=True)
     location = models.CharField(max_length=50,blank=True,null=True)
     bio = models.CharField(max_length=280,blank=True,null=True)
     date_of_birth = models.DateField(null=True)
@@ -25,6 +25,7 @@ class User(AbstractUser):
             return self.name
         else:
             return self.username
+
 
 class Contact(models.Model):
     from_user = models.ForeignKey(to=User,
