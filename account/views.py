@@ -27,14 +27,15 @@ class UserDetails(LoginRequiredMixin,DetailView):
 
 
 class UserUpdate(LoginRequiredMixin, UpdateView):
-    fields = ['name', 'email', 'picture','location', 'bio', ]
     model = User
+    fields = ['name', 'email', 'picture','location', 'bio', ]
+    template_name = 'account/update_user.html'
 
-    # send the user back to their own page after a successful update
     def get_success_url(self):
+        """send the user back to their own page after a successful update"""
         return reverse('account:details',
                        kwargs={'username': self.request.user.username})
 
     def get_object(self):
-        # Only get the User record for the user making the request
+        """Only get the User record for the user making the request"""
         return User.objects.get(username=self.request.user.username)
