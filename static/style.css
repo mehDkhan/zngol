@@ -13,3 +13,8 @@ body{
     background-color: #95999c;
     height: 50px;
 }
+
+.user-image{
+    /*width: 150px;*/
+    border-radius: 50%;
+}
