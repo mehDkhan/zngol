@@ -33,6 +33,7 @@ class Contact(models.Model):
     to_user = models.ForeignKey(to=User,
                                 on_delete=models.CASCADE,related_name="rel_to_set")
     created = models.DateTimeField(auto_now_add=True,db_index=True)
+    deleted = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('-created',)
