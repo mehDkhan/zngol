@@ -20,6 +20,48 @@ class User(AbstractUser):
     def get_absolute_url(self):
         return reverse('account:details',kwargs={'username':self.username})
 
+    def get_followings(self):
+        """
+        Returns a list of users that are following this user
+        """
+        ids = Contact.objects.values_list('to_user',flat=True).filter(from_user=self, deleted=False)
+        users = User.objects.filter(pk__in=set(ids))
+        return users
+
+    def get_followers(self):
+        """
+        Returns a list of users tha this user is following
+        """
+        ids = Contact.objects.values_list('from_user',flat=True).filter(to_user=self,deleted=False)
+        users = User.objects.filter(pk__in=set(ids))
+        return users
+
+    def follow(self,user):
+        """
+        Self will follow user
+        """
+        if user not in self.get_followings():
+            Contact.objects.create(from_user=self,to_user=user,deleted=False)
+            return True
+        return False
+
+    def unfollow(self,user):
+        """
+        Self will un-follow user
+        """
+        if user in self.get_followings():
+            c = Contact.objects.get(from_user=self,to_user=user,deleted=False)
+            c.deleted=True
+            c.save()
+            return True
+        return False
+
+    def is_following(self,user):
+        """
+        Check if self is following user
+        """
+        return self in user.get_followers()
+
     def get_name(self):
         if self.name:
             return self.name

@@ -4,9 +4,53 @@
 
 {% block content %}
     <br>
+    <h5>{{ user.get_name }}</h5>
+    <hr>
     <div class="col-md-8 col-lg-8 col-sm-12 col-xl-6">
         {% thumbnail user.picture "100" as im %}
         <img src="{{ im.url }}" class="user-image">
         {% endthumbnail %}
     </div>
+    {% csrf_token %}
+    {% if request.user in user.get_followers %}
+        <button class="btn btn-light" value="unfollow" id="follow">Unfollow</button>
+    {% else %}
+        <button class="btn btn-success" value="follow" id="follow">Follow</button>
+    {% endif %}
+
+{% endblock %}
+{% block script %}
+    {{ block.super }}
+    <script>
+        function execAction(action){
+            $.ajax({
+               url:"{% url 'account:follow' %}",
+               type:"POST",
+               data:{
+                   action:action,
+                   user_id:{{ user.id }},
+                   csrfmiddlewaretoken:$("input[name='csrfmiddlewaretoken']").val(),
+               },
+               success:function(data){
+                   let flw_btn=$("#follow");
+                   if(data.status && action === "follow"){
+                       flw_btn.val("unfollow");
+                       flw_btn.text("unfollow");
+                       flw_btn.removeClass('btn-success')
+                       flw_btn.addClass('btn-light')
+                   }
+                   else if(data.status && action === "unfollow"){
+                       flw_btn.val("follow");
+                       flw_btn.text("follow");
+                       flw_btn.removeClass('btn-light');
+                       flw_btn.addClass('btn-success');
+                   }
+               }
+            });
+        }
+        $("#follow").on("click",function (event) {
+            execAction($("#follow").val());
+            event.preventDefault();
+        });
+    </script>
 {% endblock %}

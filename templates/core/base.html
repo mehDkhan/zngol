@@ -23,7 +23,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="#">Dashboard</a>
-              <a class="dropdown-item" href="{% url 'account:details' username=user.username %}">Account</a>
+              <a class="dropdown-item" href="{% url 'account:details' username=request.user.username %}">Account</a>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="{% url 'account:logout' %}">Logout</a>
             </div>
@@ -46,5 +46,6 @@
 
 <script type="text/javascript" src="{% static "jquery/jquery-341.min.js" %}"></script>
 <script type="text/javascript" src="{% static "bootstrap-4.3.1-dist/js/bootstrap.min.js" %}"></script>
+{% block script %}{% endblock %}
 </body>
 </html>
