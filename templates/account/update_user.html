@@ -1,9 +1,15 @@
 {% extends 'core/base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
+    <center>
+    <div class="col-md-8 col-lg-8 col-sm-12 col-xl-6">
+    <div class="card">
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
     <input type="submit" value="Save" class="btn btn-primary" />
     </form>
+    </div>
+    </div>
+    </center>
 {% endblock %}
