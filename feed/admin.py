@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Feed
+from .models import Post,Comment
 
-@admin.register(Feed)
-class FeedAdmin(admin.ModelAdmin):
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
     list_display = ('title','slug','author','publish','status')
     list_filter = ('status','created','publish','author')
     search_fields = ['title','body']
@@ -10,3 +11,12 @@ class FeedAdmin(admin.ModelAdmin):
     raw_id_fields = ('author',)
     date_hierarchy = 'publish'
     ordering = ('status','publish')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post','author','created')
+    list_filter = ('created','author')
+    search_fields = ['body']
+    raw_id_fields = ('author','post')
+    ordering = ('created',)

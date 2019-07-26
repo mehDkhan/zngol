@@ -1,12 +1,12 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from account.models import User
 from django.utils import timezone
 
 
-class Feed(models.Model):
+class Post(models.Model):
     STATUS = (('draft','Draft'),('published','Published'))
 
-    author = models.ForeignKey(to=get_user_model(),
+    author = models.ForeignKey(to=User,
                                on_delete=models.SET_NULL,
                                related_name='feed_posts',
                                null=True
@@ -25,3 +25,16 @@ class Feed(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=timezone.now())
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return 'Comment by {} on {}'.format(self.author,self.post)
