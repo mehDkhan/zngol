@@ -57,6 +57,8 @@ def follow(request):
     if user_id and action:
         try:
             user = User.objects.get(id=user_id)
+            if request.user == user:
+                return JsonResponse({'status':0,'msg':'You can\'t follow yourself'})
             if action == 'follow':
                 if request.user.is_following(user):
                     return JsonResponse({'status':0,'msg':'already following'})

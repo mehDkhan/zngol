@@ -11,13 +11,14 @@
         <img src="{{ im.url }}" class="user-image">
         {% endthumbnail %}
     </div>
-    {% csrf_token %}
-    {% if request.user in user.get_followers %}
-        <button class="btn btn-light" value="unfollow" id="follow">Unfollow</button>
-    {% else %}
-        <button class="btn btn-success" value="follow" id="follow">Follow</button>
-    {% endif %}
-
+    {% ifnotequal request.user user %}
+        {% csrf_token %}
+        {% if request.user in user.get_followers %}
+            <button class="btn btn-light" value="unfollow" id="follow">Unfollow</button>
+        {% else %}
+            <button class="btn btn-success" value="follow" id="follow">Follow</button>
+        {% endif %}
+    {% endifnotequal %}
 {% endblock %}
 {% block script %}
     {{ block.super }}
