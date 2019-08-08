@@ -1,7 +1,38 @@
-{% extends 'core/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}{{ block.super }} - Index{% endblock %}
 
 {% block content %}
 
+<div class="col-md-8 col-lg-8 col-sm-12 col-xl-6 mx-auto">
+
+    <div class="page-header border-bottom">
+        <button type="button" class="btn btn-primary float-right">
+            Compose
+        </button>
+        <h1>Feed</h1>
+
+    </div>
+    <div class="card">
+        <div class="card-header"><h5>Latest Posts</h5></div>
+            <ul class="stream">
+
+            </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{{ block.super }}
+<script>
+$(document).ready(function(){
+    $.ajax({
+        url:"{% url 'feed:post_list' %}",
+        type:'POST',
+        success:function(data){
+            $(".stream").append(data)
+        }
+    })
+})
+</script>
 {% endblock %}
